@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "This is Advanced server side course work 2 . and this is blog site.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev":"nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lasith456/advancedServerSideCW2.git"
+  },
+  "author": "Lasith Chamika Viduranga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lasith456/advancedServerSideCW2/issues"
+  },
+  "homepage": "https://github.com/Lasith456/advancedServerSideCW2#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "multer": "^1.4.5-lts.2",
+    "nodemon": "^3.1.9",
+    "path": "^0.12.7",
+    "sqlite3": "^5.1.7"
+  }
+}
