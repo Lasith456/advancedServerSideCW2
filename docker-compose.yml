@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mysql_service:
+      image: mysql:8.0
+      container_name: mysql_container
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_DATABASE: user_db
+      volumes:
+        - mysql_data:/var/lib/mysql
+        
+  backend:
+    build:
+      context: ./backend
+    container_name: backend_service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_HOST=mysql_service
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=user_db
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: nodemon index.js
+    depends_on:
+      - mysql_service
+    restart: always
+
+
+volumes:
+  mysql_data:
