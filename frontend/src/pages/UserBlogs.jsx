@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import {Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function UserBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchBlogs = () => {
     const token = Cookies.get('token');
     axios.get(`http://localhost:3000/blog/personalblogs`, {
       headers: {
@@ -20,7 +21,29 @@ function UserBlogs() {
       .catch((err) => {
         setError(err.response?.data?.message || 'Failed to fetch blogs.');
       });
+  };
+
+  useEffect(() => {
+    fetchBlogs();
   }, []);
+
+  const handleDelete = async (blogId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
+    if (!confirmDelete) return;
+
+    try {
+      const token = Cookies.get('token');
+      await axios.delete(`http://localhost:3000/blog/${blogId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert('Blog deleted successfully.');
+      fetchBlogs(); // Refresh the list
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to delete blog.');
+    }
+  };
 
   if (error) {
     return <p className="text-red-600 text-center mt-6">{error}</p>;
@@ -28,7 +51,16 @@ function UserBlogs() {
 
   return (
     <div className="max-w-7xl mx-auto py-6 px-4">
-      <h2 className="text-2xl font-bold mb-6 text-center">Your Blogs</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Your Blogs</h2>
+        <button
+          onClick={() => navigate('/create')}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          + New Blog
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {blogs.map((blog) => (
           <div key={blog.id} className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -43,9 +75,30 @@ function UserBlogs() {
               <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
               <p className="text-sm text-gray-500 mb-1">Country: {blog.country}</p>
               <p className="text-sm text-gray-700 line-clamp-3">{blog.content}</p>
-              <Link to={`/blog/${blog.id}`} className="text-blue-600 text-sm mt-2 inline-block hover:underline">
-                Read More →
-              </Link>
+
+              <div className="flex justify-between items-center mt-4">
+                <Link
+                    to={`/blog/${blog.id}`}
+                    className="text-blue-600 text-sm hover:underline"
+                >
+                    Read More →
+                </Link>
+
+                <div className="flex space-x-3">
+                    <Link
+                    to={`/blog/edit/${blog.id}`}
+                    className="text-yellow-600 text-sm hover:underline"
+                    >
+                    Edit
+                    </Link>
+                    <button
+                    onClick={() => handleDelete(blog.id)}
+                    className="text-red-600 text-sm hover:underline"
+                    >
+                    Delete
+                    </button>
+                </div>
+               </div>
             </div>
           </div>
         ))}
