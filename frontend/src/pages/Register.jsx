@@ -16,7 +16,6 @@ function Register() {
     setErrorMsg('');
     setSuccessMsg('');
     setLoading(true);
-    navigate("/login");
     try {
       const response = await axios.post(
         'http://localhost:3000/auth/register',
@@ -29,6 +28,8 @@ function Register() {
         setName('');
         setEmail('');
         setPassword('');
+        navigate("/login");
+
       }
 
     } catch (error) {
