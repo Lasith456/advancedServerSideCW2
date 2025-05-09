@@ -9,6 +9,7 @@ function Navbar() {
 
   const handleLogout = () => {
     Cookies.remove('token');
+    setShowDropdown(false);
     navigate('/login');
   };
 
@@ -30,7 +31,7 @@ function Navbar() {
           ) : (
             
             <div className="relative">
-            <Link to="/blog" className="text-gray-700 hover:text-blue-500 mx-6">My Blogs</Link>
+            <Link to="/personalblogs" className="text-gray-700 hover:text-blue-500 mx-6">My Blogs</Link>
               <button
                 className="w-10 h-10 rounded-full bg-gray-200 text-gray-700 focus:outline-none"
                 onClick={() => setShowDropdown(!showDropdown)}

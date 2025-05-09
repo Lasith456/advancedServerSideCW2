@@ -38,6 +38,26 @@ exports.getAllBlogs = (req, res) => {
       });
     });
   };
+  exports.getBlogsByUserId = (req, res) => {
+    const userId = req.user.email;
+    blogDao.getBlogsByAuthorEmail(userId, (err, blogs) => {
+      if (err) {
+        console.error("Error fetching user's blogs:", err);
+        return res.status(500).json({ message: "Database error." });
+      }
+  
+      if (!blogs || blogs.length === 0) {
+        return res.status(404).json({ message: "No blogs found for this user." });
+      }
+  
+      res.status(200).json({
+        message: "User's blogs retrieved successfully!",
+        count: blogs.length,
+        data: blogs
+      });
+    });
+  };
+  
 exports.createBlog = (req, res) => {
   try {
     const { title, content,country } = req.body;

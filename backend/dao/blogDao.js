@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 const getAllBlogs = (callback) => {
     const sql = `
-      SELECT id, title, content, image, author_email AS author, created_at
+      SELECT id, title, content, country,image, author_email AS author, created_at
       FROM blogs
       ORDER BY created_at DESC
     `;
@@ -44,7 +44,10 @@ const deleteBlog = (id, callback) => {
     const sql = "SELECT * FROM blogs WHERE author_name LIKE ? ORDER BY created_at DESC";
     db.query(sql, [`%${author}%`], callback);
   };
-  
+  const getBlogsByAuthorEmail = (author, callback) => {
+    const sql = "SELECT * FROM blogs WHERE author_email LIKE ? ORDER BY created_at DESC";
+    db.query(sql, [`%${author}%`], callback);
+  };
   const getBlogsByCountry = (country, callback) => {
     const sql = "SELECT * FROM blogs WHERE country = ? ORDER BY created_at DESC";
     db.query(sql, [country], callback);
@@ -62,5 +65,6 @@ module.exports = {
   getAllBlogs,
   getBlogsByAuthor,
   getBlogsByCountry,
-  getBlogsByAuthorAndCountry
+  getBlogsByAuthorAndCountry,
+  getBlogsByAuthorEmail
 };

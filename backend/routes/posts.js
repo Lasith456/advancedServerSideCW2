@@ -7,6 +7,7 @@ const blogController=require('../controller/blogController');
 blogRouter.get('/test', verifyToken, (req, res) => {res.send(`Hello ${req.user.email}, your token is live!`);});
 
 blogRouter.get('/blogs', blogController.getAllBlogs);
+blogRouter.get('/personalblogs', verifyToken, blogController.getBlogsByUserId);
 blogRouter.get('/:id', blogController.getBlogById);
 blogRouter.get('/filter/blogs', blogController.filterBlogs);
 

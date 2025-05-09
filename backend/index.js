@@ -2,6 +2,7 @@ const express = require('express');
 const cors=require('cors');
 const app = express();
 const dotenv = require('dotenv');
+const path = require('path');
 const authRoutes = require('./routes/auth');
 const blogRouter = require('./routes/posts');
 const followRouter=require('./routes/followRouter');
@@ -16,8 +17,9 @@ app.use(
       credentials: true,
     })
   );
-  
+
 app.use('/uploads', express.static('uploads'));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use("/auth", authRoutes);
 app.use("/blog", blogRouter);
