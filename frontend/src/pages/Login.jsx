@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate, Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
-function Login({ onToggle }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,11 +23,16 @@ function Login({ onToggle }) {
       );
       const user = response.data?.user?.name;
       if (user) {
-        alert("Hi " + user);
+        alert("Hi " + user+" Welcome back!");
       }else{
         alert("something went wrong")
       }
-      localStorage.setItem("token", response.data.token);
+      Cookies.set('token', response.data.token, {
+        expires: 1,           // Expires in 7 days
+        secure: true,         // Send over HTTPS only
+        sameSite: 'strict',   // CSRF protection
+      });
+      navigate("/");
     } catch (error) {
       if (error.response) {
         const { status, data } = error.response;
@@ -87,12 +95,13 @@ function Login({ onToggle }) {
 
         <p className="mt-3 text-sm text-center">
           Don't have an account?{" "}
+        <Link to="/register">
           <span
             className="text-blue-600 cursor-pointer hover:underline"
-            onClick={onToggle}
           >
             Register
           </span>
+          </Link>
         </p>
       </form>
     </div>
