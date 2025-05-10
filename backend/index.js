@@ -6,6 +6,8 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const blogRouter = require('./routes/posts');
 const followRouter=require('./routes/followRouter');
+const likeCommentRouter = require('./routes/likeCommentRouter');
+
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
@@ -24,6 +26,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use("/auth", authRoutes);
 app.use("/blog", blogRouter);
 app.use('/user', followRouter);
+app.use('/blog', likeCommentRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is Running on ${PORT}..`);
