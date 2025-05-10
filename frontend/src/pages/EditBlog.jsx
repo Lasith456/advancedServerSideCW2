@@ -13,6 +13,7 @@ function EditBlog() {
   const [image, setImage] = useState(null);
   const [existingImage, setExistingImage] = useState('');
   const [error, setError] = useState('');
+  const [visitedDate, setVisitedDate] = useState('');
 
   const token = Cookies.get('token');
 

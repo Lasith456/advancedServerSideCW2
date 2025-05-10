@@ -60,7 +60,7 @@ function BlogDetails() {
     }, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(() => {
-      setComments(prev => [...prev, { text: comment }]);
+      setComments(prev => [...prev, { comment_text: comment }]);
       setComment('');
     });
   };
@@ -78,6 +78,9 @@ function BlogDetails() {
       <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
       <p className="text-gray-600 mb-1">Author: {blog.author_email}</p>
       <p className="text-gray-500 mb-4">Country: {blog.country}</p>
+      {blog.visited_date && (
+        <p className="text-sm text-gray-500">Visited on: {new Date(blog.visited_date).toLocaleDateString()}</p>
+      )}
 
       {blog.image && (
         <img
@@ -129,7 +132,7 @@ function BlogDetails() {
           ) : (
             comments.map((c, idx) => (
               <div key={idx} className="p-2 border rounded bg-gray-50 text-sm">
-                {c.text}
+                {c.comment_text}
               </div>
             ))
           )}

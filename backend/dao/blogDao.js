@@ -9,16 +9,17 @@ const getAllBlogs = (callback) => {
     db.query(sql, callback);
   };
 
-const createBlog = (title, content, country,image, authorEmail, callback) => {
+const createBlog = (title, content, country, image, authorEmail, visitedDate, callback) => {
   const sql = `
-    INSERT INTO blogs (title, content, country,image, author_email)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO blogs (title, content, country, image, author_email, visited_date)
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
-  db.query(sql, [title, content, country, image, authorEmail], (err, result) => {
+  db.query(sql, [title, content, country, image, authorEmail, visitedDate], (err, result) => {
     if (err) return callback(err, null);
     callback(null, result);
   });
 };
+
 const findBlogById = (id, callback) => {
     const sql = "SELECT * FROM blogs WHERE id = ?";
     db.query(sql, [id], (err, results) => {

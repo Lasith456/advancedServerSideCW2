@@ -9,6 +9,7 @@ function CreateBlog() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
+  const [visitedDate, setVisitedDate] = useState('');
 
   const navigate = useNavigate();
 
@@ -25,6 +26,8 @@ function CreateBlog() {
     formData.append('title', title);
     formData.append('country', country);
     formData.append('content', content);
+    formData.append('visited_date', visitedDate);
+
     if (image) {
       formData.append('image', image);
     }
@@ -70,6 +73,13 @@ function CreateBlog() {
           onChange={(e) => setCountry(e.target.value)}
           className="w-full p-2 border rounded"
           required
+        />
+        <label className="block text-sm font-medium text-gray-700">Visited Date</label>
+        <input
+          type="date"
+          value={visitedDate}
+          onChange={(e) => setVisitedDate(e.target.value)}
+          className="w-full border rounded px-3 py-2 mb-4"
         />
 
         <textarea

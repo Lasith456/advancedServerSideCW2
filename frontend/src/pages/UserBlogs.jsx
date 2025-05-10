@@ -52,7 +52,7 @@ function UserBlogs() {
     <div className="max-w-7xl mx-auto py-6 px-4">
       <h2 className="text-2xl font-bold text-center mb-6">Your Blogs</h2>
 
-      {blogs.length === 0 && (
+
         <div className="text-center">
           <p className="mb-4 text-gray-600">{error}</p>
           <button
@@ -62,7 +62,7 @@ function UserBlogs() {
             + New Blog
           </button>
         </div>
-      )}
+
 
       {blogs.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

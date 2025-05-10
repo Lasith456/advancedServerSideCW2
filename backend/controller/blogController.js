@@ -1,4 +1,6 @@
 const blogDao = require('../dao/blogDao');
+const fs = require('fs');
+const path = require('path');
 
 exports.getAllBlogs = (req, res) => {
     try {
@@ -61,12 +63,14 @@ exports.getAllBlogs = (req, res) => {
 exports.createBlog = (req, res) => {
   try {
     const { title, content,country } = req.body;
+    const visitedDate = req.body.visited_date || null;
+
     const imagePath = req.file ? req.file.path : null;
     if (!title || !content ||!country) {
       return res.status(400).json({ message: "Title,Country and content are required." });
     }
     const authorEmail = req.user.email;
-    blogDao.createBlog(title, content, country,imagePath, authorEmail, (err, result) => {
+    blogDao.createBlog(title, content, country,imagePath, authorEmail, visitedDate,(err, result) => {
       if (err) {
         console.error("Error saving your blog:", err);
         return res.status(500).json({ message: "Failed to save blog to the database." });
@@ -79,7 +83,8 @@ exports.createBlog = (req, res) => {
           country,
           content,
           image: imagePath,
-          author: authorEmail
+          author: authorEmail,
+          visited_date:visitedDate
         }
       });
     });
@@ -148,7 +153,16 @@ exports.deleteBlog = async (req, res) => {
           if (blog.author_email !== loggedInEmail) {
             return res.status(401).json({ message: "Access Denied." });
           }
-
+      if (blog.image) {
+        const imagePath = path.join(__dirname, '../', blog.image);
+        fs.unlink(imagePath, (err) => {
+          if (err) {
+            console.warn(`Image not deleted (maybe already removed): ${imagePath}`);
+          } else {
+            console.log(`Deleted image: ${imagePath}`);
+          }
+        });
+      }
       blogDao.deleteBlog(blogId, (err, result) => {
         if (err) {
           console.error("Error deleting your blog:", err);
