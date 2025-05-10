@@ -9,6 +9,7 @@ function Navbar() {
 
   const handleLogout = () => {
     Cookies.remove('token');
+    Cookies.remove('userEmail');
     setShowDropdown(false);
     navigate('/login');
   };

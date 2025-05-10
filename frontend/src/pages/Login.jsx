@@ -22,6 +22,7 @@ function Login() {
         { withCredentials: true }
       );
       const user = response.data?.user?.name;
+
       if (user) {
         alert("Hi " + user+" Welcome back!");
       }else{
@@ -32,6 +33,8 @@ function Login() {
         secure: true,         // Send over HTTPS only
         sameSite: 'strict',   // CSRF protection
       });
+      Cookies.set('userEmail', response.data.user.email);
+
       navigate("/");
     } catch (error) {
       if (error.response) {
