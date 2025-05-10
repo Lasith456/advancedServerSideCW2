@@ -9,7 +9,6 @@ exports.getAllBlogs = (req, res) => {
           console.error("Error getting blogs:", err);
           return res.status(500).json({ message: "Failed to get blogs." });
         }
-  
         res.status(200).json({
           message: "All Blogs retrieved successfully!",
           count: blogs.length,
@@ -181,28 +180,48 @@ exports.deleteBlog = async (req, res) => {
   }
 };
 exports.filterBlogs = (req, res) => {
-    const { author, country } = req.query;
-  
-    if (author && country) {
-      blogDao.getBlogsByAuthorAndCountry(author, country, returnBlogs);
-    } else if (author) {
-      blogDao.getBlogsByAuthor(author, returnBlogs);
-    } else if (country) {
-      blogDao.getBlogsByCountry(country, returnBlogs);
-    } else {
-      return res.status(400).json({ message: "Please provide author or country or both." });
+  const { author, title, country, visited_date } = req.query;
+  const filters = [];
+  const values = [];
+
+  if (author) {
+    filters.push("author_email LIKE ?");
+    values.push(`%${author}%`);
+  }
+
+  if (title) {
+    filters.push("title LIKE ?");
+    values.push(`%${title}%`);
+  }
+
+  if (country) {
+    filters.push("country LIKE ?");
+    values.push(`%${country}%`);
+  }
+
+  if (visited_date) {
+    filters.push("visited_date = ?");
+    values.push(visited_date); 
+  }
+
+  if (filters.length === 0) {
+    return res.status(400).json({ message: "Please provide at least one filter (author, title, country, or visited_date)." });
+  }
+
+  const sql = `SELECT * FROM blogs WHERE ${filters.join(' AND ')}`;
+
+  blogDao.filterBlogs(sql, values, (err, blogs) => {
+    if (err) {
+      console.error("Error filtering blogs:", err);
+      return res.status(500).json({ message: "Database error." });
     }
-      function returnBlogs(err, blogs) {
-      if (err) {
-        console.error("Error filtering blogs:", err);
-        return res.status(500).json({ message: "Database error." });
-      }
-  
-      res.status(200).json({
-        message: "Filtered blogs retrieved!",
-        count: blogs.length,
-        data: blogs
-      });
-    }
-  };
+
+    res.status(200).json({
+      message: "Filtered blogs retrieved!",
+      count: blogs.length,
+      data: blogs
+    });
+  });
+};
+
   

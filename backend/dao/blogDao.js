@@ -58,6 +58,10 @@ const deleteBlog = (id, callback) => {
     const sql = "SELECT * FROM blogs WHERE author_name LIKE ? AND country = ? ORDER BY created_at DESC";
     db.query(sql, [`%${author}%`, country], callback);
   };
+  const filterBlogs = (sql, values, callback) => {
+  db.query(sql, values, callback);
+};
+
 module.exports = {
   createBlog,
   findBlogById,
@@ -67,5 +71,6 @@ module.exports = {
   getBlogsByAuthor,
   getBlogsByCountry,
   getBlogsByAuthorAndCountry,
-  getBlogsByAuthorEmail
+  getBlogsByAuthorEmail,
+  filterBlogs
 };

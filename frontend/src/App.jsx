@@ -8,13 +8,15 @@ import Home from './pages/Home';
 import BlogDetails from './pages/BlogDetails';
 import UserBlogs from './pages/UserBlogs';
 import CreateBlog from './pages/CreateBlog';
-import EditBlog from './pages/EditBlog';
+import EditBlog from './pages/EditBlog'; 
+import Profile from './pages/Profile';
 function App() {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route path='/profile' element={<Profile/>}/>
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/personalblogs" element={<UserBlogs />} />
         <Route path="/create" element={<CreateBlog />} />
