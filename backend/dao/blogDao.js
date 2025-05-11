@@ -61,6 +61,20 @@ const deleteBlog = (id, callback) => {
   const filterBlogs = (sql, values, callback) => {
   db.query(sql, values, callback);
 };
+const getFollowingFeed = (userEmail, callback) => {
+  const sql = `
+    SELECT blogs.*
+    FROM blogs
+    JOIN followers ON blogs.author_email = followers.following_email
+    WHERE followers.follower_email = ?
+    ORDER BY blogs.created_at DESC
+  `;
+
+  db.query(sql, [userEmail], (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
 
 module.exports = {
   createBlog,
@@ -72,5 +86,6 @@ module.exports = {
   getBlogsByCountry,
   getBlogsByAuthorAndCountry,
   getBlogsByAuthorEmail,
-  filterBlogs
+  filterBlogs,
+  getFollowingFeed
 };

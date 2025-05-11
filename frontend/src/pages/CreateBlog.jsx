@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -10,8 +10,30 @@ function CreateBlog() {
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
   const [visitedDate, setVisitedDate] = useState('');
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch countries on component mount
+    axios.get('https://restcountries.com/v3.1/all')
+      .then(res => {
+        const sortedCountries = res.data.sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+        setCountries(sortedCountries);
+      })
+      .catch(err => console.error('Failed to fetch countries', err));
+  }, []);
+
+  const handleCountryChange = (e) => {
+    const selected = countries.find(
+      (c) => c.name.common === e.target.value
+    );
+    setCountry(selected?.name.common || '');
+    setSelectedCountry(selected || null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,10 +49,7 @@ function CreateBlog() {
     formData.append('country', country);
     formData.append('content', content);
     formData.append('visited_date', visitedDate);
-
-    if (image) {
-      formData.append('image', image);
-    }
+    if (image) formData.append('image', image);
 
     try {
       const token = Cookies.get('token');
@@ -42,8 +61,7 @@ function CreateBlog() {
       });
 
       alert(response.data.message);
-      navigate('/userblogs');
-
+      navigate('/');
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || 'Failed to create blog.');
@@ -66,14 +84,27 @@ function CreateBlog() {
           required
         />
 
-        <input
-          type="text"
-          placeholder="Country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
+        <select
+          onChange={handleCountryChange}
           className="w-full p-2 border rounded"
           required
-        />
+        >
+          <option value="">Select Country</option>
+          {countries.map((c) => (
+            <option key={c.cca3} value={c.name.common}>
+              {c.name.common}
+            </option>
+          ))}
+        </select>
+
+        {selectedCountry && (
+          <div className="bg-gray-50 p-4 rounded border text-sm">
+            <p><strong>Capital:</strong> {selectedCountry.capital?.[0] || 'N/A'}</p>
+            <p><strong>Currency:</strong> {Object.values(selectedCountry.currencies || {})[0]?.name || 'N/A'}</p>
+            <img src={selectedCountry.flags.svg} alt="flag" className="w-20 mt-2" />
+          </div>
+        )}
+
         <label className="block text-sm font-medium text-gray-700">Visited Date</label>
         <input
           type="date"

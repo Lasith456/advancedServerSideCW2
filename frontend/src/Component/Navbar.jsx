@@ -32,6 +32,8 @@ function Navbar() {
           ) : (
             
             <div className="relative">
+              <Link to="/following-feed" className="hover:text-blue-600">Following Feed</Link>
+
             <Link to="/personalblogs" className="text-gray-700 hover:text-blue-500 mx-6">My Blogs</Link>
               <button
                 className="w-10 h-10 rounded-full bg-gray-200 text-gray-700 focus:outline-none"

@@ -10,6 +10,7 @@ import UserBlogs from './pages/UserBlogs';
 import CreateBlog from './pages/CreateBlog';
 import EditBlog from './pages/EditBlog'; 
 import Profile from './pages/Profile';
+import FollowingFeed from './pages/FollowingFeed';
 function App() {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/personalblogs" element={<UserBlogs />} />
         <Route path="/create" element={<CreateBlog />} />
         <Route path="/blog/edit/:id" element={<EditBlog />} />
+        <Route path="/following-feed" element={<FollowingFeed />} />
 
         <Route
           path='/login'

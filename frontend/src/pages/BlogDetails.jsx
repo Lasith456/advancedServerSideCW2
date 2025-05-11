@@ -12,6 +12,8 @@ function BlogDetails() {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [userReaction, setUserReaction] = useState(null); 
+  const [countryFlag, setCountryFlag] = useState(null);
+
   useEffect(() => {
     axios.get(`http://localhost:3000/blog/${id}/reaction`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -30,14 +32,27 @@ function BlogDetails() {
         setLikes(res.data.likes);
         setDislikes(res.data.dislikes);
       });
-    axios.get(`http://localhost:3000/blog/${id}`)
-      .then((res) => {
-        setBlog(res.data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError('Failed to load blog');
-      });
+      axios.get(`http://localhost:3000/blog/${id}`)
+        .then((res) => {
+          const blogData = res.data.data;
+          setBlog(blogData);
+
+          axios.get(`https://restcountries.com/v3.1/name/${blogData.country}?fullText=true`)
+            .then(response => {
+              const flagUrl = response.data[0]?.flags?.svg;
+              setCountryFlag(flagUrl);
+            })
+            .catch(err => {
+              console.error("Flag fetch failed", err);
+              setCountryFlag(null);
+            });
+
+        })
+        .catch((err) => {
+          console.error(err);
+          setError('Failed to load blog');
+        });
+
   }, [id]);
   const token = Cookies.get('token');
   const handleLike = () => {
@@ -77,7 +92,12 @@ function BlogDetails() {
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-2">{blog.title}</h1>
       <p className="text-gray-600 mb-1">Author: {blog.author_email}</p>
-      <p className="text-gray-500 mb-4">Country: {blog.country}</p>
+      <div className="flex items-center gap-2 mb-4">
+        <p className="text-gray-500">Country: {blog.country}</p>
+        {countryFlag && (
+          <img src={countryFlag} alt={`${blog.country} flag`} className="w-6 h-4 object-cover rounded" />
+        )}
+      </div>
       {blog.visited_date && (
         <p className="text-sm text-gray-500">Visited on: {new Date(blog.visited_date).toLocaleDateString()}</p>
       )}

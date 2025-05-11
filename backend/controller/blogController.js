@@ -224,4 +224,14 @@ exports.filterBlogs = (req, res) => {
   });
 };
 
-  
+exports.getFollowingFeed = (req, res) => { 
+const userEmail = req.user.email;
+
+  blogDao.getFollowingFeed(userEmail, (err, blogs) => {
+    if (err) {
+      console.error('DAO Error:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+    res.json({ blogs });
+  });
+};
