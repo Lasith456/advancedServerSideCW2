@@ -150,7 +150,14 @@ function Home() {
             onChange={(e) => setSearchDate(e.target.value)}
             className="border p-2 rounded"
           />
-          <select
+
+          <button
+            onClick={handleSearch}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+          >
+            🔍 Search
+          </button>
+                    <select
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
             className="border p-2 rounded"
@@ -159,12 +166,6 @@ function Home() {
             <option value="likes">Most Liked</option>
             <option value="comments">Most Commented</option>
           </select>
-          <button
-            onClick={handleSearch}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
-          >
-            🔍 Search
-          </button>
         </div>
       </div>
 
