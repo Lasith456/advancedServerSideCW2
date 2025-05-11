@@ -3,7 +3,7 @@
 **Module**: 6COSC022W – Web Design & Development  
 **Coursework 2** – Blogging Site For Travellers 
 
-# TravelBloger
+# NaviTrails
 
 This project is a full-stack web application built with:
 - **React.js** for the frontend
