@@ -48,7 +48,7 @@ cd advancedServerSideCW2
 docker-compose up --build
 ```
 
-- React App: [http://localhost:3001](http://localhost:3001)
+- React App: [http://localhost:5173](http://localhost:5173)
 - Backend API: [http://localhost:3000](http://localhost:3000)
 
 ---
@@ -60,13 +60,13 @@ docker-compose up --build
 ```bash
 cd frontend
 npm install
-npm run start   
+npm run dev   
 
 # To create production build
 npm run build
 ```
 
-> App runs at: [http://localhost:3001](http://localhost:3001)
+> App runs at: [http://localhost:5173](http://localhost:5173)
 
 ---
 
@@ -98,7 +98,7 @@ cd frontend
 docker build -t react-dev .
 
 # Run the container
-docker run -p 3001:3001 react-dev
+docker run -p 5173:5173 react-dev
 ```
 
 ### Backend (Node.js)
@@ -131,7 +131,7 @@ cp .env.example .env
 
 | Location   | Script         | Description                    |
 |------------|----------------|--------------------------------|
-| frontend   | `npm start`    | Start React app (CRA)          |
+| frontend   | `npm dev`      | Start React app (CRA)          |
 | frontend   | `npm run build`| Build for production           |
 | backend    | `npm run start`| Start Node.js server           |
 | backend    | `npm run dev`  | Start server with nodemon      |
