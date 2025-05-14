@@ -49,7 +49,7 @@ function Profile() {
 
       {/* Blog Posts */}
       <div className="mb-10">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">📝 My Blog Posts</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">My Blog Posts</h2>
         {userBlogs.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {userBlogs.map((blog) => (
