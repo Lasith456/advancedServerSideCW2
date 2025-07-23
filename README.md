@@ -29,6 +29,20 @@ project-root/
 
 ---
 
+## 🎥 Project Demo
+
+Here is a full demonstration of the NaviTrails application, showcasing its features and user interface.
+
+<div align="center">
+  <a href="demo.mov" target="_blank">
+  </a>
+</div>
+
+<p align="center">
+  (Click the thumbnail to watch the video)
+</p>
+
+---
 ##  1. Getting Started
 
 ###  Clone the Repository
