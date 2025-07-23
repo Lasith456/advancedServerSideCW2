@@ -35,8 +35,8 @@ Here is a full demonstration of the NaviTrails application, showcasing its featu
 
 <div align="center">
   <a href="demo.mov" target="_blank">
-      <img src="https://i.imgur.com/8Z6bJ9G.png" alt="NaviTrails Project Demo Video" style="width:100%; max-width: 600px;">
-
+      
+🎥
   </a>
 </div>
 
