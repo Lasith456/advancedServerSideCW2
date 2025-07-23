@@ -31,18 +31,9 @@ project-root/
 
 ## 🎥 Project Demo
 
-Here is a full demonstration of the NaviTrails application, showcasing its features and user interface.
+Here is a full demonstration of the NaviTrails application,   <a href="https://youtu.be/5qJZfDLsvQ4" target="_blank"> watch in you tube 🎥
+  </a>.
 
-<div align="center">
-  <a href="demo.mov" target="_blank">
-      
-🎥
-  </a>
-</div>
-
-<p align="center">
-  (Click the thumbnail to watch the video)
-</p>
 
 ---
 ##  1. Getting Started
